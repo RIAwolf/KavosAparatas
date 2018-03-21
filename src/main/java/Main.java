@@ -34,6 +34,7 @@ public class Main {
                     break;
                 case 2:
                     _service.assignMultipleProducts(_machines, _multipleProducts);
+
                     break;
                 case 3:
                     _service.assignSingleProduct(_machines, _singleProduct);
