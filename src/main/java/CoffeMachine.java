@@ -12,29 +12,27 @@ public class CoffeMachine {
 
 
     public CoffeMachine(ProductsVO value) {
-       this._products=value;
+        this._products = value;
     }
 
 
-
-
     public void addProducts(ProductsVO value) {
-       this._products.setBeans(this._products.getBeans()+value.getBeans());
-       this._products.setWater(this._products.getWater()+value.getWater());
-       this._products.setSugar(this._products.getSugar()+value.getSugar());
+        this._products.setBeans(this._products.getBeans() + value.getBeans());
+        this._products.setWater(this._products.getWater() + value.getWater());
+        this._products.setSugar(this._products.getSugar() + value.getSugar());
     }
 
 
     public void makeCoffe(String type) {
         switch (type.toLowerCase()) {
             case "latte":
-                makeLatte();
+                makeCup(new CoffeeLatte());
                 break;
             case "espresso":
-                makeEspresso();
+                makeCup(new CoffeeEspresso());
                 break;
             case "black":
-                makeBlack();
+                makeCup(new CoffeeBlack());
                 break;
         }
     }
@@ -87,53 +85,22 @@ public class CoffeMachine {
 
     /**
      */
-    private void makeLatte() {
-        float needsBeans = 10;
-        float needsWater = 150;
-        float needsSugar = 5;
+    private void makeCup(CoffeeCup cup) {
 
-        if (!checkProducts(needsSugar, needsWater, needsBeans) && checkWashing()) {
-            _products.setWater(_products.getWater()-  needsWater);
-            _products.setSugar(_products.getSugar()-needsSugar);
-            _products.setBeans(_products.getBeans()-needsBeans);
+        if (!checkProducts(cup.getProducts().getSugar(), cup.getProducts().getWater(), cup.getProducts().getBeans()) && checkWashing()) {
+            _products.setWater(_products.getWater() - cup.getProducts().getWater());
+            _products.setSugar(_products.getSugar() - cup.getProducts().getSugar());
+            _products.setBeans(_products.getBeans() - cup.getProducts().getBeans());
             _uses++;
-            System.out.println("Padariau Latte");
+            cup.setIsReady(true);
+            try {
+                Thread.sleep(cup.getPreparationDuration());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(cup);
         }
 
-    }
-
-
-    /**
-     */
-    private void makeBlack() {
-        float needsBeans = 20;
-        float needsWater = 200;
-        float needsSugar = 10;
-
-        if (!checkProducts(needsSugar, needsWater, needsBeans) && checkWashing()) {
-            _products.setWater(_products.getWater()-  needsWater);
-            _products.setSugar(_products.getSugar()-needsSugar);
-            _products.setBeans(_products.getBeans()-needsBeans);
-            _uses++;
-            System.out.println("Padariau Juodą kavą");
-        }
-    }
-
-
-    /**
-     */
-    private void makeEspresso() {
-        float needsBeans = 30;
-        float needsWater = 100;
-        float needsSugar = 5;
-
-        if (!checkProducts(needsSugar, needsWater, needsBeans) && checkWashing()) {
-            _products.setWater(_products.getWater()-  needsWater);
-            _products.setSugar(_products.getSugar()-needsSugar);
-            _products.setBeans(_products.getBeans()-needsBeans);
-            _uses++;
-            System.out.println("Padariau Esspresso");
-        }
     }
 
 
