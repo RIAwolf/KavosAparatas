@@ -46,7 +46,13 @@ public class CoffeeCup extends Cup implements IProductsContainer {
 
     @Override
     public String toString() {
-        return "Name: " + getName() + ", is ready: " + getIsReady() + ", beans: " + _products.getBeans() + ", sugar: " + _products.getSugar() + ", water: " + _products.getWater();
+        return "Name: " + getName() +
+                ", is ready: " + getIsReady() +
+                ", beans: " + _products.getBeans() +
+                ", sugar: " + _products.getSugar() +
+                ", water: " + _products.getWater() +
+                ", milk: " + _products.getMilk() +
+                ", chocolate: " + _products.getChocolate();
     }
 
     public int getPreparationDuration() {

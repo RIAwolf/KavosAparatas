@@ -3,17 +3,27 @@ import cups.CoffeeCup;
 import cups.CoffeeEspresso;
 import cups.CoffeeLatte;
 import interfaces.ICoffeeMachine;
+import interfaces.IMenu;
 import interfaces.IProductsContainer;
 import products.ProductsVO;
 
-public class CoffeeMachine implements IProductsContainer, ICoffeeMachine {
+import java.util.HashMap;
+import java.util.Map;
+
+public class CoffeeMachine implements IProductsContainer, ICoffeeMachine, IMenu {
 
     public static final int MAX_USES = 5;
     private ProductsVO _products;
     private int _uses;
 
+    private Map<String,CoffeeCup> _menu;
+
 
     public CoffeeMachine() {
+        _menu = new HashMap<>();
+        addCup(new CoffeeLatte());
+        addCup(new CoffeeBlack());
+        addCup(new CoffeeEspresso());
     }
 
 
@@ -30,17 +40,7 @@ public class CoffeeMachine implements IProductsContainer, ICoffeeMachine {
 
     @Override
     public void makeCoffee(String type) {
-        switch (type.toLowerCase()) {
-            case "latte":
-                makeCup(new CoffeeLatte());
-                break;
-            case "espresso":
-                makeCup(new CoffeeEspresso());
-                break;
-            case "black":
-                makeCup(new CoffeeBlack());
-                break;
-        }
+       makeCoffeeIfExists(type);
     }
 
     @Override
@@ -146,5 +146,27 @@ public class CoffeeMachine implements IProductsContainer, ICoffeeMachine {
     @Override
     public void setProducts(ProductsVO _products) {
         this._products = _products;
+    }
+
+    @Override
+    public void addCup(CoffeeCup cup) {
+        _menu.put(cup.getName().toLowerCase(),cup);
+    }
+
+    @Override
+    public void removeCup(String key) {
+        _menu.remove(key.toLowerCase());
+    }
+
+    @Override
+    public void addMap(Map<String, CoffeeCup> map) {
+        _menu=map;
+    }
+
+    @Override
+    public void makeCoffeeIfExists(String name) {
+        if(_menu.containsKey(name.toLowerCase())){
+            makeCup(_menu.get(name.toLowerCase()));
+        }
     }
 }

@@ -1,11 +1,18 @@
 import interfaces.ICoffeeMachine;
+import interfaces.IMachineService;
 import interfaces.IProductsContainer;
 import products.ProductsVO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MachineService {
+public class MachineService implements IMachineService {
+    public static int machineAmount = 0;
+
+    public static void showMachineCount() {
+        System.out.println("Išviso buvo skurta: " + machineAmount + " aparatų");
+    }
+
     public List<ICoffeeMachine> createMachines(int n) {
         List<ICoffeeMachine> result = new ArrayList<ICoffeeMachine>();
         for (int i = 0; i < n; i++) {
@@ -15,6 +22,7 @@ public class MachineService {
     }
 
     public ICoffeeMachine createMachine() {
+        machineAmount++;
         ICoffeeMachine result = new CoffeeMachine();
         return result;
     }
@@ -33,7 +41,7 @@ public class MachineService {
         ProductsVO dumpResult = new ProductsVO(0, 0, 0, 0, 0);
 
         for (int i = 0; i < list.size(); i++) {
-            IProductsContainer currentMachine = ((IProductsContainer)list.get(i));
+            IProductsContainer currentMachine = ((IProductsContainer) list.get(i));
             dumpResult.setBeans(dumpResult.getBeans() + currentMachine.getProducts().getBeans());
             dumpResult.setWater(dumpResult.getWater() + currentMachine.getProducts().getWater());
             dumpResult.setSugar(dumpResult.getSugar() + currentMachine.getProducts().getSugar());
@@ -48,7 +56,7 @@ public class MachineService {
 
     public void assignSingleProduct(List<ICoffeeMachine> list, ProductsVO product) {
         for (int i = 0; i < list.size(); i++) {
-            ((CoffeeMachine)list.get(i)).setProducts(product);
+            ((CoffeeMachine) list.get(i)).setProducts(product);
         }
     }
 
@@ -57,7 +65,7 @@ public class MachineService {
         for (int i = 0; i < list.size(); i++) {
             ProductsVO skirtingasProduktas = new ProductsVO(50, 50, 50, 50, 50);
             products.add(skirtingasProduktas);
-            ((CoffeeMachine)list.get(i)).setProducts(skirtingasProduktas);
+            ((CoffeeMachine) list.get(i)).setProducts(skirtingasProduktas);
         }
     }
 }
